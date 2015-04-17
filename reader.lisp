@@ -131,9 +131,9 @@
 (defun write-csv-row (filename stream)
   (cl-csv:write-csv-row (unzip-plist (parse-word filename)) :stream stream))
 
-(defun parse-data-dir (&optional (dir (cl-fad:merge-pathnames-as-directory *search-dir*)))
+(defun parse-data-dir (&optional (dir (cl-fad:merge-pathnames-as-directory *search-dir*)) (target-file "data-full.csv"))
   (collect-formant-data)     
-  (with-open-file (str "test.csv" :direction :output :if-exists :supersede)
+  (with-open-file (str target-file :direction :output :if-exists :supersede)
     (cl-csv:write-csv-row *csv-header* :stream str)
     (cl-fad:walk-directory dir (lambda (x)
 				 (when (string= (pathname-type x) "TextGrid")
